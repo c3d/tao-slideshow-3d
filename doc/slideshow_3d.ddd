@@ -1,0 +1,18 @@
+import SlideShow3D 1.0
+
+S -> window_height / 1600
+scale S, S, S
+
+SHOWN := 24
+MAX := 24
+SPEED := 0.2
+
+color "white"
+show_front := -1.0
+color "white", 0.2
+show_image with files "photos/*.jpg"
+
+image_index := 0
+show_front := 1.0
+color "white"
+show_image with files "photos/*.jpg"
