@@ -1,3 +1,7 @@
+/*
+ * This file duplicates module.xl for documentation purposes.
+ */
+
 /**
  * @defgroup SlideShow3D Photo Slide Show in 3D
  * @ingroup Modules
