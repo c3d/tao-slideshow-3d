@@ -18,7 +18,7 @@ MODINSTDIR = slideshow_3d
 
 include(../modules.pri)
 
-OTHER_FILES = slideshow_3d.xl
+OTHER_FILES = module.xl module.doxy.h
 
 # icon from http://www.iconfinder.com/icondetails/18336/32/folder_image_photo_icon
 INSTALLS    += thismod_icon
