@@ -11,6 +11,10 @@ module_description
     website "http://www.taodyne.com"
     version 1.0
 
+module_description "fr",
+    name "Diaporama 3D"
+    description "Permet d'afficher des images sur une sphère qui tourne."
+
 
 // Reset to 0 before calling show_image
 image_index -> 0
