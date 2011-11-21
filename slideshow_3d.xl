@@ -5,14 +5,51 @@
 module_description
     id "6F7C6F4E-7814-45F5-941C-8C370FCAA1A2"
     name "3D slide show"
-    description "Defines some 3D slide show effects."
+    description "Shows a collection of pictures on a rotating 3D sphere."
     import_name "SlideShow3D"
     author "Taodyne SAS"
     website "http://www.taodyne.com"
-    version 1.024
+    version 1.0
 
 module_description "fr",
     name "Diaporama 3D"
-    description "Définit de nombreux effets de diaporama 3D."
+    description "Permet d'afficher des images sur une sphère qui tourne."
 
-import "slideshow_3d2.xl.crypt"
+
+// Reset to 0 before calling show_image
+image_index -> 0
+image_index := 0
+// Set to 1.0 to draw front pictures, -1.0 to draw back pictures
+show_front -> 1.0
+show_front := 1.0
+
+// Maximum number of images on the sphere
+SHOWN -> 36
+SHOWN := 36
+// Image width (px)
+SIZE -> 300
+SIZE := 300
+// Rotation speed factor
+SPEED -> 1.0
+SPEED := 1.0
+// Radius of the sphere
+RADIUS -> 1200
+RADIUS := 1200
+
+page_index -> 0.0
+page_index := 0
+
+MAX -> 270
+MAX := 270
+
+show_image N : text ->
+    image_index := image_index + 1
+    page_index := (page_time * SPEED - image_index) mod MAX
+    if page_index < SHOWN then
+        if page_index * show_front < 0.5 * SHOWN * show_front then
+            locally
+                rotatey 90 - 360 * page_index / SHOWN
+                rotatex (image_index mod 3) * 15 - 24
+                translatez RADIUS - ((image_index - 1) mod 3) * 100
+                image_px 0, 0, SIZE, 0, N
+
