@@ -23,7 +23,3 @@ OTHER_FILES = slideshow_3d.xl
 # icon from http://www.iconfinder.com/icondetails/18336/32/folder_image_photo_icon
 INSTALLS    += thismod_icon
 INSTALLS    -= thismod_bin
-
-QMAKE_SUBSTITUTES = doc/Doxyfile.in
-DOXYFILE = doc/Doxyfile
-include(../modules_doc.pri)
