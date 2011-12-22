@@ -1,6 +1,5 @@
 /**
- * @defgroup SlideShow3D Photo Slide Show in 3D
- * @ingroup Modules
+ * @taomoduledescription{SlideShow3D, Photo Slide Show in 3D}
  *
  * Shows a collection of pictures on a rotating 3D sphere.
  *
@@ -16,6 +15,8 @@
  *
  * Note that there is a template document that further illustrates this
  * module.
+ *
+ * @endtaomoduledescription{SlideShow3D}
  * @{
  */
 
