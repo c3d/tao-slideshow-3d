@@ -24,7 +24,7 @@
  * Affiche un ensemble d'images sur une sphère qui tourne.
  *
  * Ce module vous permet d'afficher une animation en 3D à partir de photos
- * qui se trouvent dans un répertoire.
+ * qui se trouvent dansun répertoire.
  * Par exemple, supposons que vous ayez 24 photos JPEG dans le dossier
  * @c photos. Le code qui suit montre toutes les photos sur une sphère qui
  * tourne lentement.
@@ -113,7 +113,7 @@ integer SIZE = 400;
  * La vitesse de rotation de la sphère qui porte les images.
  *
  * La sphère tourne selon l'axe @c y à une vitesse de un tour toutes les
- * @ref SHOWN secondes par défaut. Autrement dit, une nouvelle image fait face
+ * @ref SHOWN secondes par défaut. Autrement dit, une nouvelle image fait facce
  * à l'utilisateur chaque seconde.
  *
  * Vous pouvez ajuster cette vitesse en changeant @ref SPEED, qui est un
@@ -169,7 +169,7 @@ show_image with files "*.jpg"
  @endcode
  *
  * En fonction des paramètres définis dans ce module, et en fonction
- * également de la valeur de @ref page_time, l'image sera affichée
+ * également de la valeur de @ref page_time, la l'image sera affichée
  * au bon endroit.
  */
 show_image(filename:text);
