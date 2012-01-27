@@ -1,0 +1,71 @@
+// ****************************************************************************
+//  slideshow_3d2.xl                                                Tao project
+// ****************************************************************************
+// 
+//   File Description:
+// 
+//    Implement 3D slide show
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// ****************************************************************************
+// This document is released under the GNU General Public License.
+// See http://www.gnu.org/copyleft/gpl.html and Matthew 25:22 for details
+//  (C) 2011 Christophe de Dinechin <christophe@taodyne.com>
+//  (C) 2011 Jérôme Forissier <jerome@taodyne.com>
+//  (C) 2011 Catherine Burvelle <cathy@taodyne.com>
+//  (C) 2011 Taodyne SAS
+// ****************************************************************************
+
+license_ok ->
+    if check_license ("SlideShow3D 1.0", false) then
+        true
+    else
+        if blink (1.0, 1.0) then
+           true
+        else
+           false
+
+// Reset to 0 before calling show_image
+image_index -> 0
+image_index := 0
+
+// Set to 1.0 to draw front pictures, -1.0 to draw back pictures
+show_front -> 1.0
+show_front := 1.0
+
+// Maximum number of images on the sphere
+SHOWN -> 36
+SHOWN := 36
+// Image width (px)
+SIZE -> 300
+SIZE := 300
+// Rotation speed factor
+SPEED -> 1.0
+SPEED := 1.0
+// Radius of the sphere
+RADIUS -> 1200
+RADIUS := 1200
+
+page_index -> 0.0
+page_index := 0
+
+MAX -> 270
+MAX := 270
+
+show_image N : text ->
+    image_index := image_index + 1
+    page_index := (page_time * SPEED - image_index) mod MAX
+    if license_ok then
+        if page_index < SHOWN then
+            if page_index * show_front < 0.5 * SHOWN * show_front then
+                locally
+                    rotatey 90 - 360 * page_index / SHOWN
+                    rotatex (image_index mod 3) * 15 - 24
+                    translatez RADIUS - ((image_index - 1) mod 3) * 100
+                    image_px 0, 0, SIZE, 0, N
