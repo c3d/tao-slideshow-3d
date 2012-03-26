@@ -123,6 +123,16 @@ real SPEED = 1.0;
 
 /**
  * @~english
+ * A value added to page_time when computing the animation.
+ * Allows to start with several images already visible.
+ * @~french
+ * Une valeur ajoutée à page_time lors du calcul de l'animation.
+ * Permet de démarrer avec plusieurs imagess déjà visibles.
+ */
+real TIME_OFFSET = 0.0;
+
+/**
+ * @~english
  * The radius of the sphere is in pixels.
  * @~french
  * Le rayon de la sphère en pixels.
