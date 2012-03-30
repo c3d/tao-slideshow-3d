@@ -58,9 +58,12 @@ page_index := 0
 MAX -> 270
 MAX := 270
 
+TIME_OFFSET -> 0.0
+TIME_OFFSET := 0.0
+
 show_image N : text ->
     image_index := image_index + 1
-    page_index := (page_time * SPEED - image_index) mod MAX
+    page_index := ((page_time + TIME_OFFSET) * SPEED - image_index) mod MAX
     if license_ok then
         if page_index < SHOWN then
             if page_index * show_front < 0.5 * SHOWN * show_front then
