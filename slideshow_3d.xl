@@ -5,14 +5,14 @@
 module_description
     id "6F7C6F4E-7814-45F5-941C-8C370FCAA1A2"
     name "3D slide show"
-    description "Defines some 3D slide show effects."
+    description "Shows a collection of pictures on a rotating 3D sphere."
     import_name "SlideShow3D"
     author "Taodyne SAS"
     website "http://www.taodyne.com"
-    version 1.02
+    version 1.01
 
 module_description "fr",
     name "Diaporama 3D"
-    description "Définit de nombreux effets de diaporama 3D."
+    description "Permet d'afficher des images sur une sphère qui tourne."
 
 import "slideshow_3d2.xl.crypt"

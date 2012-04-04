@@ -1,45 +1,18 @@
+import SlideShow3D 1.0
 
-import SlideShow3D
+S -> window_height / 1600
+scale S, S, S
 
-clear_color 0, 0, 0, 1
+SHOWN := 24
+MAX := 24
+SPEED := 0.2
 
-/*
-*  Use Left and Right keys to move slider
-*  and Return to reset it.
-*/
-key "Right" ->
-    slider_previous
-key "Left" ->
-    slider_next
-key "Return" ->
-    slider_front_item 1
+color "white"
+show_front := -1.0
+color "white", 0.2
+show_image with files "photos/*.jpg"
 
-// Define the action to do when the specified item is
-// the front one
-highlight N:integer ->
-    if slider_front_item = N then
-        line_color "yellow"
-
-// Define items of slider
-slider_item 1 ->
-    highlight 1
-    color "blue"
-    sphere 0, 0, 0, 300
-slider_item 2 ->
-    highlight 2
-    color "red"
-    torus 0, 0, 0, 300, 0.25
-slider_item 3 ->
-    highlight 3
-    color "green"
-    rotatex -90
-    cone 0, 0, 0, 150, 200, 200
-slider_item 4 ->
-    highlight 4
-    color "white"
-    rotatey 45
-    cube 0, 0, 0, 200, 200, 200
-
-// Apply slider
-slider_offset 500, 0, 0
-slider 4, slider_item
+image_index := 0
+show_front := 1.0
+color "white"
+show_image with files "photos/*.jpg"
