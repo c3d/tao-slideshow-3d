@@ -4,7 +4,7 @@
 // 
 //   File Description:
 // 
-//    Implement 3D slide show
+//    Implement some 3D slide show
 // 
 // 
 // 
@@ -22,6 +22,8 @@
 //  (C) 2011 Taodyne SAS
 // ****************************************************************************
 
+import Animate
+
 license_ok ->
     if check_license ("SlideShow3D 1.0", false) then
         true
@@ -30,6 +32,15 @@ license_ok ->
            true
         else
            false
+
+
+/******************************************************************************
+*                                                                             *
+*                                                                             *
+*                            Sphere slider                                    *
+*                                                                             *
+*                                                                             *
+*******************************************************************************/
 
 // Reset to 0 before calling show_image
 image_index -> 0
@@ -72,3 +83,264 @@ show_image N : text ->
                     rotatex (image_index mod 3) * 15 - 24
                     translatez RADIUS - ((image_index - 1) mod 3) * 100
                     image_px 0, 0, SIZE, 0, N
+
+
+/******************************************************************************
+*                                                                             *
+*                                                                             *
+*                                   Slider                                    *
+*                                                                             *
+*                                                                             *
+*******************************************************************************/
+
+
+// ============================================================================
+//
+//   Settings
+//
+// ============================================================================
+
+// Positions of each item
+slider_position_x -> 0.0
+slider_position_y -> 0.0
+slider_position_z -> 0.0
+
+// Offsets of each item
+slider_offset_x -> 0.0
+slider_offset_x := 0.0
+slider_offset_y -> 0.0
+slider_offset_y := 0.0
+slider_offset_z -> 0.0
+slider_offset_z := 0.0
+
+// Size of the slider container
+slider_width -> 0.0
+slider_width := window_width
+slider_height -> 0.0
+slider_height := window_height
+slider_depth -> 0.0
+slider_depth := z_near
+
+// Current slider item
+slider_front_item -> 1
+
+// Number of slider items
+slider_count -> 0
+
+// Velocity of transitions
+slider_velocity -> 0.05
+slider_velocity := 0.05
+
+// Velocity of movement
+slider_move -> 0.0
+slider_move := 0.0
+
+slider_loop -> false
+slider_loop := false
+
+// ============================================================================
+//
+//   Settings commands
+//
+// ============================================================================
+
+slider_offset x:real, y:real, z:real ->
+// ----------------------------------------------------------------------------
+//     Set offsets for slider effect
+// ----------------------------------------------------------------------------
+    slider_offset_x := x
+    slider_offset_y := y
+    slider_offset_z := z
+
+
+slider_size w:real, h:real, d:real ->
+// ----------------------------------------------------------------------------
+//     Set size of slider container
+// ----------------------------------------------------------------------------
+    slider_width  := w
+    slider_height := h
+    slider_depth  := d
+
+
+slider_auto_move s:real ->
+// ----------------------------------------------------------------------------
+//    Define auto movement of the slider
+// ----------------------------------------------------------------------------
+    slider_move := s
+
+
+slider_velocity s:real ->
+// ----------------------------------------------------------------------------
+//    Define velocity of the slider
+// ----------------------------------------------------------------------------
+    slider_velocity := s
+
+
+slider_next ->
+// ----------------------------------------------------------------------------
+//    Go to the next item
+// ----------------------------------------------------------------------------
+    time
+    if slider_front_item < slider_count then
+        slider_front_item := slider_front_item + 1
+
+slider_previous ->
+// ----------------------------------------------------------------------------
+//    Go to the previous item
+// ----------------------------------------------------------------------------
+    time
+    if slider_front_item > 1 then
+        slider_front_item := slider_front_item - 1
+
+
+// ============================================================================
+//
+//   Fade-in and fade-out functions
+//
+// ============================================================================
+
+
+slider_fade_x N:integer, Sx:real ->
+// ----------------------------------------------------------------------------
+//    Compute fade value for horizontal slider effects
+// ----------------------------------------------------------------------------
+    if slider_offset_x <> 0.0 then
+        exp (-((N - 1 + slider_position_x / slider_offset_x) ^ 2) * Sx)
+    else
+        1
+
+slider_fade_y N:integer, Sy:real ->
+// ----------------------------------------------------------------------------
+//    Compute fade value for vertical slider effects
+// ----------------------------------------------------------------------------
+    if slider_offset_y <> 0.0 then
+        exp (-((N - 1 + slider_position_y / slider_offset_y) ^ 2) * Sy)
+    else
+        1
+
+slider_fade_z N:integer, Sz:real ->
+// ----------------------------------------------------------------------------
+//    Compute fade value for depth slider effects
+// ----------------------------------------------------------------------------
+    if slider_offset_z <> 0.0 then
+        exp (-((N - 1 + slider_position_z / slider_offset_z) ^ 2) * Sz)
+    else
+        1
+
+slider_fade N:integer, Sx:real, Sy:real, Sz:real ->
+// ----------------------------------------------------------------------------
+//    Compute fade value for standard slider effects
+// ----------------------------------------------------------------------------
+    x := slider_fade_x N, Sx
+    y := slider_fade_y N, Sy
+    z := slider_fade_z N, Sz
+    x * y * z
+
+// Shortcuts
+slider_fade_y N:integer -> slider_fade_y N, 1.1
+slider_fade_x N:integer -> slider_fade_x N, 1.1
+slider_fade_z N:integer -> slider_fade_z N, 1.1
+slider_fade N:integer -> slider_fade N, 1.1, 1.1, 1.1
+
+
+slider_mx -> 0.0
+step_x -> 0.0
+sx -> 1
+
+slider_mouse_x s:real ->
+// ----------------------------------------------------------------------------
+//    Move slider according to the x-position of the mouse
+// ----------------------------------------------------------------------------
+    if(slider_offset_x > 0.0)
+        time
+        locally
+            enable_selection_rectangle false
+            if mouse_buttons <> 0 then
+                if slider_mx = 0 then
+                    slider_mx := mouse_x
+                else
+                    step_x := (integer (mouse_x - slider_mx)) / (integer (slider_offset_x / 4))
+                    slider_front_item := (sx - integer (step_x * s))
+                    if (slider_front_item > slider_count) then
+                        slider_front_item := slider_count
+                    else
+                        if slider_front_item < 1 then
+                            slider_front_item := 1
+            else
+                sx := slider_front_item
+                slider_mx := 0
+
+slider_my -> 0.0
+step_y -> 0.0
+sy -> 1
+
+slider_mouse_y s:real ->
+// ----------------------------------------------------------------------------
+//    Move slider according to the y-position of the mouse
+// ----------------------------------------------------------------------------
+    if(slider_offset_y > 0.0) then
+        time
+        locally
+            enable_selection_rectangle false
+            if mouse_buttons <> 0 then
+                if slider_my = 0 then
+                    slider_my := mouse_y
+                else
+                    step_y := (integer (mouse_y - slider_my)) / (integer (slider_offset_y / 4))
+                    slider_front_item := (sy - integer (step_y * s))
+                    if (slider_front_item > slider_count) then
+                        slider_front_item := slider_count
+                    else
+                        if slider_front_item < 1 then
+                            slider_front_item := 1
+            else
+                sy := slider_front_item
+                slider_my := 0
+
+// ============================================================================
+//
+//   Main command
+//
+// ============================================================================
+
+slider N:integer, T ->
+// ----------------------------------------------------------------------------
+//     Main function
+// ----------------------------------------------------------------------------
+    slider_count := N
+    if slider_move > 0.0 then
+        slider_front_item := integer(slider_move mod slider_count) + 1
+    locally
+        interpolate2 slider_velocity, slider_offset_x * (1 - slider_front_item), slider_position_x, 0.1
+        interpolate2 slider_velocity, slider_offset_y * (1 - slider_front_item), slider_position_y, 0.1
+        interpolate2 slider_velocity, slider_offset_z * (1 - slider_front_item), slider_position_z, 0.1
+        xs -> 0.0
+        ys -> 0.0
+        zs -> 0.0
+        i := N
+        while i > 0 loop
+            locally
+                xs := (i - 1) * slider_offset_x + slider_position_x
+                ys := (i - 1) * slider_offset_y + slider_position_y
+                zs := (i - 1) * slider_offset_z + slider_position_z
+                if (abs (xs) <= slider_width) and (abs (ys) <= slider_height) and (abs (zs) <= slider_depth) then
+                    translate xs, ys, zs
+                    T with i
+                i := i - 1
+
+
+// ============================================================================
+//
+//   Private
+//
+// ============================================================================
+
+
+interpolate2 R:real, T:real, X:real, S:real ->
+// ----------------------------------------------------------------------------
+//     Interpolate only when necessary
+// ----------------------------------------------------------------------------
+    interpolate R, T, X
+    if (abs (T - X)) > S then
+        time
+
