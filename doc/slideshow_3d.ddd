@@ -1,5 +1,5 @@
 
-import Slider
+import SlideShow3D
 
 clear_color 0, 0, 0, 1
 
@@ -12,7 +12,7 @@ key "Right" ->
 key "Left" ->
     slider_next
 key "Return" ->
-    slider_front_item := 1
+    slider_front_item 1
 
 // Define the action to do when the specified item is
 // the front one
@@ -41,6 +41,5 @@ slider_item 4 ->
     cube 0, 0, 0, 200, 200, 200
 
 // Apply slider
-slider_size 3000, 3000, 3000
 slider_offset 500, 0, 0
 slider 4, slider_item

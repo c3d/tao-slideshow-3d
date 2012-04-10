@@ -182,10 +182,11 @@ show_image(filename:text);
 
 /**
  * @~english
- * Create a slider effect.\n
+ * Create a slider effect.
  *
- * Define a basic slider effect with @n items defined by the function @p f.
- * So, it is very important for each item, the correct behavior of this function @p f.
+ * Define a basic slider effect with @p N items defined by the function @p F.
+ * So, it is very important for each item, the correct behavior of this function @p F.
+ *
  * For instance, the following example create a slide show with four pictures.
 @code
 picture 1 ->
@@ -214,9 +215,10 @@ slider 4, picture
  * @~french
  * Créé un effet de diaporama.
  *
- * Définit un diaporama basique avec @n éléments définit par la fonction @p f.
+ * Définit un diaporama basique avec @p N éléments définit par la fonction @p F.\n
  * Il est donc important de définir pour chacun des éléments du diaporama,
- * le comportement correct de cette fonction @p f.
+ * le comportement correct de cette fonction @p F.
+ *
  * Par exemple, le code suivant créé un diaporama comprenant quatres photographies.
  *
  @code
@@ -243,12 +245,12 @@ picture N:integer ->
 slider 4, picture
 @endcode
  */
-slider(n:integer, f:tree);
+slider(N:integer, F:tree);
 
 
 /**
  * @~english
- * Sets offsets of the slider.\n
+ * Sets offsets of the slider.
  *
  * Defines offsets between each item of the slider defined by @ref slider.
  *
@@ -280,31 +282,27 @@ slider_offset(x:real, y:real, z:real);
 
 /**
  * @~english
- * Sets size of a slider.\n
+ * Sets maximum of shown items in a slider.
  *
- * Specifies the size of the slider created by @ref slider.
+ * Specifies the maximum of shown items in a slider created by @ref slider.
  *
- * @param w Width of the slider. Default value is @ref window_width.
- * @param h Height of the slider. Default value is @ref window_height.
- * @param d Depth of the slider. Default value is @ref z_near.
+ * @param N Maximum of shown items. Default value is the number of items in the slider.
  *
  *
  * @~french
- * Modifie la taille du diaporama.\n
+ * Modifie le nombre maximum d'éléments affichés dans un diaporama.
  *
- * Spécifie la taille du diaporama créer par @ref slider.
+ * Spécifie le nombre maximum d'éléments affichés dans un diaporama créé par @ref slider.
  *
- * @param w Largeur du diaporama. La valeur par défaut est @ref window_width.
- * @param h Hauteur du diaporama. La valeur par défaut est @ref window_height.
- * @param d Profondeur du diaporama. La valeur par défaut est @ref z_near.
+ * @param N Nombre maximum d'éléments affichés. La valeur par défaut correspond au nombre total d'éléments présents dans le diaporama.
  *
  */
-slider_size(w:real, h:real, d:real);
+slider_max_items(N:integer);
 
 
 /**
  * @~english
- * Moves Automatically the slider.\n
+ * Moves Automatically the slider.
  *
  * This function allows to move automatically the slider at the speed @p s.
  * For instance,
@@ -332,7 +330,7 @@ slider_auto_move(s:real);
 
 /**
  * @~english
- * Specifies velocity of the slider.\n
+ * Specifies velocity of the slider.
  *
  * This function allows to set the transition velocity between each item of the slider.
  * This velocity is a real comprised between 0 and 1.
@@ -358,12 +356,33 @@ slider_velocity 0.3
 @endcode
  *
  */
-slider_auto_move(s:real);
+slider_velocity(s:real);
 
 
 /**
  * @~english
- * Go to the next item of the slider.\n
+ * Enable or disable the looping mode of a slider.
+ *
+ * This function allows to enable and disable the looping mode of a slider.
+ *
+ * If @p b is set to true, then the slider is showed as an infinite loop.
+ * The default state is disable.
+ *
+ * @~french
+ * Active ou désactive la lecture en boucle d'un diaporama.
+ *
+ * Cette fonction permet d'activer ou de désactiver la lecture en boucle d'un diaporama.
+ *
+ * Si @p b vaut @c true, alors la lecture du diaporama se fait
+ * sous la forme d'une boucle infinie.
+ *
+ */
+slider_loop(b:boolean);
+
+
+/**
+ * @~english
+ * Go to the next item of the slider.
  *
  * This function allows to move forward the slideshow defined by @ref slider.
  * A simple use case is :
@@ -387,7 +406,7 @@ slider_next();
 
 /**
  * @~english
- * Go to the previous item of the slider.\n
+ * Go to the previous item of the slider.
  *
  * This function allows to move backward the slideshow defined by @ref slider.
  * A simple use case is :
@@ -410,7 +429,7 @@ slider_previous();
 
 /**
  * @~english
- * Move slider according to x-position of the mouse.\n
+ * Move slider according to x-position of the mouse.
  *
  * This function allows to move a slideshow defined by @ref slider thanks to a mouse move along the x-axis.
  *
@@ -429,7 +448,7 @@ slider_mouse_x(s:real);
 
 /**
  * @~english
- * Move slider according to y-position of the mouse.\n
+ * Move slider according to y-position of the mouse.
  *
  * This function allows to move a slideshow defined by @ref slider thanks to a mouse move along the y-axis.
  *
@@ -443,178 +462,204 @@ slider_mouse_x(s:real);
  *
  * @param s Sensiblité de la souris.
  */
-slider_mouse_x(s:real);
+slider_mouse_y(s:real);
 
 
 /**
  * @~english
  * Compute value to be used for horizontal fade-in effects of a slider.
  *
- * Return for an item @p N, a value that fades approximately from 0.0 to 1.0, computed according to its position
- * relative to the center.
+ * Return for an item of a slider, a value that fades approximately from 0.0 to 1.0, computed according to its position
+ * relative to the center.\n
  * The parameter @p Sx is the fade-in velocity along x-axis.
  *
  * For instance, to add an horizontal fade-in effect to the example of @ref slider :
 @code
 picture N:integer ->
-    alpha := slider_fade_x N, 1.1
+    alpha := slider_fade_x 1.1
     color "white", alpha
     image_px 0, 0, 500, 500, "your_picture_" & text N & ".jpg"
 slider 4, picture
 @endcode
  *
- * @note @code slider_fade_x N @endcode is a shortcut to @code slider_fade_x N, 1.1 @endcode
  *
  * @~french
- * Calcule une valeur utilisée pour des effets d'apparitions horizontales d'un diaporama.\n
+ * Calcule une valeur utilisée pour des effets d'apparitions horizontales d'un diaporama.
  *
- * Renvoie pour un élément @p N, une valeur comprise entre 0 et 1, calculée suivant sa position relative
- * par rapport au centre.
+ * Renvoie pour un élément du diaporama, une valeur comprise entre 0 et 1, calculée suivant sa position relative
+ * par rapport au centre.\n
  * Le paramètre @p Sx correspond à la vitesse d'apparition suivant l'axe x.
  *
  * Par exemple, pour rajouter un effet d'apparition horizontale à l'exemple de @ref slider :
 @code
 picture N:integer ->
-    alpha := slider_fade_x N, 1.1
+    alpha := slider_fade_x 1.1
     color "white", alpha
     image_px 0, 0, 500, 500, "your_picture_" & text N & ".jpg"
 slider 4, picture
 @endcode
  *
- * @note @code slider_fade_x N @endcode est un raccourci à @code slider_fade_x N, 1.1 @endcode
  */
-real slider_fade_x(N:integer, Sx:real);
+real slider_fade_x(Sx:real);
 
 
 /**
  * @~english
  * Compute value to be used for vertical fade-in effects of a slider.
  *
- * Return for an item @p N, a value that fades approximately from 0.0 to 1.0, computed according to its position
- * relative to the center.
+ * Return for an item of a slider, a value that fades approximately from 0.0 to 1.0, computed according to its position
+ * relative to the center.\n
  * The parameter @p Sy is the fade-in velocity along y-axis.
  *
  * For instance, to add a vertical fade-in effect to the example of @ref slider :
 @code
 picture N:integer ->
-    alpha := slider_fade_y N, 1.1
+    alpha := slider_fade_y 1.1
     color "white", alpha
     image_px 0, 0, 500, 500, "your_picture_" & text N & ".jpg"
 slider 4, picture
 @endcode
  *
- * @note @code slider_fade_y N @endcode is a shortcut to @code slider_fade_y N, 1.1 @endcode
  *
  * @~french
- * Calcule une valeur utilisée pour des effets d'apparitions verticales d'un diaporama.\n
+ * Calcule une valeur utilisée pour des effets d'apparitions verticales d'un diaporama.
  *
- * Renvoie pour un élément @p N, une valeur comprise entre 0 et 1, calculée suivant sa position relative
- * par rapport au centre.
+ * Renvoie pour un élément du diaporama, une valeur comprise entre 0 et 1, calculée suivant sa position relative
+ * par rapport au centre.\n
  * Le paramètre @p Sy correspond à la vitesse d'apparition suivant l'axe y.
  *
  * Par exemple, pour rajouter un effet d'apparition verticale à l'exemple de @ref slider :
 @code
 picture N:integer ->
-    alpha := slider_fade_y N, 1.1
+    alpha := slider_fade_y 1.1
     color "white", alpha
     image_px 0, 0, 500, 500, "your_picture_" & text N & ".jpg"
 slider 4, picture
 @endcode
  *
- * @note @code slider_fade_y N @endcode est un raccourci à @code slider_fade_y N, 1.1 @endcode
  */
-real slider_fade_y(N:integer, Sy:real);
+real slider_fade_y(Sy:real);
 
 
 /**
  * @~english
  * Compute value to be used for depth fade-in effects of a slider.
  *
- * Return for an item @p N, a value that fades approximately from 0.0 to 1.0, computed according to its position
- * relative to the center.
+ * Return for an item of a slider, a value that fades approximately from 0.0 to 1.0, computed according to its position
+ * relative to the center.\n
  * The parameter @p Sz is the fade-in velocity along the z-axis.
  *
  * For instance, to add a depth fade-in effect to the example of @ref slider :
 @code
 picture N:integer ->
-    alpha := slider_fade_z N, 1.1
+    alpha := slider_fade_z 1.1
     color "white", alpha
     image_px 0, 0, 500, 500, "your_picture_" & text N & ".jpg"
 slider 4, picture
 @endcode
  *
- * @note @code slider_fade_z N @endcode is a shortcut to @code slider_fade_z N, 1.1 @endcode
  *
  * @~french
- * Calcule une valeur utilisée pour des effets d'apparitions en profondeur d'un diaporama.\n
+ * Calcule une valeur utilisée pour des effets d'apparitions en profondeur d'un diaporama.
  *
- * Renvoie pour un élément @p N, une valeur comprise entre 0 et 1, calculée suivant sa position relative
- * par rapport au centre.
+ * Renvoie pour un élément du diaporama, une valeur comprise entre 0 et 1, calculée suivant sa position relative
+ * par rapport au centre.\n
  * Le paramètre @p Sz correspond à la vitesse d'apparition suivant l'axe z.
  *
  * Par exemple, pour rajouter un effet d'apparition en profondeur à l'exemple de @ref slider :
 @code
 picture N:integer ->
-    alpha := slider_fade_z N, 1.1
+    alpha := slider_fade_z 1.1
     color "white", alpha
     image_px 0, 0, 500, 500, "your_picture_" & text N & ".jpg"
 slider 4, picture
 @endcode
  *
- * @note @code slider_fade_z N @endcode est un raccourci à @code slider_fade_z N, 1.1 @endcode
  */
-real slider_fade_z(N:integer, S:real);
+real slider_fade_z(Sz:real);
 
 
 /**
  * @~english
  * Compute value to be used for fade-in effects of a slider.
  *
- * Return for an item @p N, a value that fades approximately from 0.0 to 1.0, computed according to its position
- * relative to the center.
- * The parameters @p Sx,@p Sy,@p Sz are respectively the fade-in velocity along the x-axis, y-axis, and z-axis.
+ * Return for an item of a slider, a value that fades approximately from 0.0 to 1.0, computed according to its position
+ * relative to the center.\n
+ * The parameters @p Sx, @p Sy, @p Sz are respectively the fade-in velocity along the x-axis, y-axis, and z-axis.
  *
- * For instance, to add an original fade-in effect to the example of @p slider :
+ * For instance, to add an original fade-in effect to the example of @ref slider :
 @code
 picture N:integer ->
-    alpha := slider_fade N, 1.1, 3.0, 2.0
+    alpha := slider_fade 1.1, 3.0, 2.0
     color "white", alpha
     image_px 0, 0, 500, 500, "your_picture_" & text N & ".jpg"
 slider 4, picture
 @endcode
  *
- * @note @code slider_fade N @endcode is a shortcut to @code slider_fade N, 1.1, 1.1, 1.1 @endcode
  *
  * @~french
- * Calcule une valeur utilisée pour réaliser des effets d'apparitions dans un diaporama.\n
+ * Calcule une valeur utilisée pour réaliser des effets d'apparitions dans un diaporama.
  *
- * Renvoie pour un élément @p N, une valeur comprise entre 0 et 1, calculée suivant sa position relative
- * par rapport au centre.
- * Les paramètres @p Sx,@p Sy,@p Sz correspondent respectivement à la vitesse d'apparition suivant les axes x, y et z.
+ * Renvoie pour un élément du diaporama, une valeur comprise entre 0 et 1, calculée suivant sa position relative
+ * par rapport au centre.\n
+ * Les paramètres @p Sx, @p Sy, @p Sz correspondent respectivement à la vitesse d'apparition suivant les axes x, y et z.
  *
- * Par exemple, pour rajouter un effet d'apparition originale à l'exemple de @p slider :
+ * Par exemple, pour rajouter un effet d'apparition originale à l'exemple de @ref slider :
 @code
 picture N:integer ->
-    alpha := slider_fade N, 1.1, 3.0, 2.0
+    alpha := slider_fade 1.1, 3.0, 2.0
     color "white", alpha
     image_px 0, 0, 500, 500, "your_picture_" & text N & ".jpg"
 slider 4, picture
 @endcode
  *
- * @note @code slider_fade N @endcode est un raccourci à @code slider_fade N, 1.1, 1.1, 1.1 @endcode
  */
-real slider_fade(N:integer, Sx:real, Sy:real, Sz:real);
+real slider_fade(Sx:real, Sy:real, Sz:real);
 
 
 /**
  * @~english
- * The current item of the slider (i.e central item).
+ * Returns the current item of the slider.
+ *
+ * This function allows to get the current item of the slider (i.e central item).
  *
  * @~french
- * L'élément courant du diaporama (i.e l'élément central).
+ * Renvoie le numéro de l'élément courant du diaporama.
+ *
+ * Cette fonction permet de récupérer le numéro de l'élément courant du diaporama (i.e l'élément central).
+ *
  */
-integer slider_front_item;
+integer slider_front_item();
 
+
+/**
+ * @~english
+ * Specifies the current item of the slider.
+ *
+ * This function allows to set the current item of the slider (i.e central item).
+ *
+ * @param n The number of the new central item.
+ *
+ * A simple use case is for instance :
+@code
+// Reset of the slider
+key "Return" -> slider_front_item 1
+@endcode
+ *
+ * @~french
+ * Indique le numéro de l'élément courant du diaporama.
+ *
+ * Cette fonction permet de changer le numéro de l'élément courant du diaporama (i.e l'élément central).
+ *
+ * @param n Numéro du nouveau élément central.
+ *
+ * Un cas d'utilisation simple est par exemple :
+@code
+// Réinitialisation du diaporama
+key "Return" -> slider_front_item 1
+@endcode
+ */
+slider_front_item(n:integer);
 
 /**
  * @}
