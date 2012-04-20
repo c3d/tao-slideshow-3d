@@ -244,8 +244,6 @@ picture N:integer ->
     image_px 0, 0, 500, 500, "your_picture_" & text N & ".jpg"
 slider 4, picture
 @endcode
- * @~
- * @since 1.02
  */
 slider(N:integer, F:tree);
 
@@ -278,8 +276,6 @@ slider_offset 300, 0, 0
 @code
 slider_offset 300, 0, 0
 @endcode
- * @~
- * @since 1.02
  */
 slider_offset(x:real, y:real, z:real);
 
@@ -300,8 +296,6 @@ slider_offset(x:real, y:real, z:real);
  *
  * @param N Nombre maximum d'éléments affichés. La valeur par défaut correspond au nombre total d'éléments présents dans le diaporama.
  *
- * @~
- * @since 1.02
  */
 slider_max_items(N:integer);
 
@@ -330,9 +324,6 @@ slider_auto_move page_time * 0.1
  *
  * @note Si le mouvement du diaporama est mis en automatique,
  * alors les fonctions @ref slider_next et @ref slider_previous sont désactivés.
- *
- * @~
- * @since 1.02
  */
 slider_auto_move(s:real);
 
@@ -364,8 +355,6 @@ slider_velocity 0.3
 slider_velocity 0.3
 @endcode
  *
- * @~
- * @since 1.02
  */
 slider_velocity(s:real);
 
@@ -387,8 +376,6 @@ slider_velocity(s:real);
  * Si @p b vaut @c true, alors la lecture du diaporama se fait
  * sous la forme d'une boucle infinie.
  *
- * @~
- * @since 1.02
  */
 slider_loop(b:boolean);
 
@@ -413,9 +400,6 @@ key "Left" -> slider_next
 // Avance le diaporama avec la flêche gauche
 key "Left" -> slider_next
 @endcode
- *
- * @~
- * @since 1.02
  */
 slider_next();
 
@@ -440,9 +424,6 @@ key "Right" -> slider_previous
 // Recule le diaporama avec la flêche droite
 key "Right" -> slider_previous
 @endcode
- *
- * @~
- * @since 1.02
  */
 slider_previous();
 
@@ -461,9 +442,6 @@ slider_previous();
  * suivant l'axe x.
  *
  * @param s Sensiblité de la souris.
- *
- * @~
- * @since 1.02
  */
 slider_mouse_x(s:real);
 
@@ -483,9 +461,6 @@ slider_mouse_x(s:real);
  * suivant l'axe y.
  *
  * @param s Sensiblité de la souris.
- *
- * @~
- * @since 1.02
  */
 slider_mouse_y(s:real);
 
@@ -524,8 +499,6 @@ picture N:integer ->
 slider 4, picture
 @endcode
  *
- * @~
- * @since 1.02
  */
 real slider_fade_x(Sx:real);
 
@@ -564,8 +537,6 @@ picture N:integer ->
 slider 4, picture
 @endcode
  *
- * @~
- * @since 1.02
  */
 real slider_fade_y(Sy:real);
 
@@ -604,8 +575,6 @@ picture N:integer ->
 slider 4, picture
 @endcode
  *
- * @~
- * @since 1.02
  */
 real slider_fade_z(Sz:real);
 
@@ -644,8 +613,6 @@ picture N:integer ->
 slider 4, picture
 @endcode
  *
- * @~
- * @since 1.02
  */
 real slider_fade(Sx:real, Sy:real, Sz:real);
 
@@ -661,8 +628,6 @@ real slider_fade(Sx:real, Sy:real, Sz:real);
  *
  * Cette fonction permet de récupérer le numéro de l'élément courant du diaporama (i.e l'élément central).
  *
- * @~
- * @since 1.02
  */
 integer slider_front_item();
 
@@ -693,9 +658,6 @@ key "Return" -> slider_front_item 1
 // Réinitialisation du diaporama
 key "Return" -> slider_front_item 1
 @endcode
- *
- * @~
- * @since 1.02
  */
 slider_front_item(n:integer);
 
