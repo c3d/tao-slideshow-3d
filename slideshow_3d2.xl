@@ -291,28 +291,28 @@ slider N:integer, T ->
         slider_max_shown_items := N
     if slider_max_shown_items mod 2 = 0 then
         middle := slider_max_shown_items / 2
-        sx_inf := middle * slider_offset_x
+        sx_inf := middle * abs(slider_offset_x)
         sx_sup := sx_inf
-        sy_inf := middle * slider_offset_y
+        sy_inf := middle * abs(slider_offset_y)
         sy_sup := sy_inf
-        sz_inf := middle * slider_offset_z
+        sz_inf := middle * abs(slider_offset_z)
         sz_sup := sz_inf
     else
         middle := slider_max_shown_items / 2 + 1
-        sx_inf := middle * slider_offset_x
-        sx_sup := sx_inf - slider_offset_x
-        sy_inf := middle * slider_offset_y
-        sy_sup := sy_inf - slider_offset_y
-        sz_inf := middle * slider_offset_z
-        sz_sup := sz_inf - slider_offset_z
+        sx_inf := middle * abs(slider_offset_x)
+        sx_sup := sx_inf - abs(slider_offset_x)
+        sy_inf := middle * abs(slider_offset_y)
+        sy_sup := sy_inf - abs(slider_offset_y)
+        sz_inf := middle * abs(slider_offset_z)
+        sz_sup := sz_inf - abs(slider_offset_z)
     locally
         compute_move
         locally
-            if slider_offset_x > 0.0 then
+            if slider_offset_x <> 0.0 then
                 interpolate2 slider_velocity, slider_offset_x * (1 - slider_current_item), slider_position_x, 0.1
-            if slider_offset_y > 0.0 then
+            if slider_offset_y <> 0.0 then
                 interpolate2 slider_velocity, slider_offset_y * (1 - slider_current_item), slider_position_y, 0.1
-            if slider_offset_z > 0.0 then
+            if slider_offset_z <> 0.0 then
                 interpolate2 slider_velocity, slider_offset_z * (1 - slider_current_item), slider_position_z, 0.1
             xs -> 0.0
             ys -> 0.0
@@ -338,6 +338,11 @@ check_drawing v:real, offset:real, position:real, sup:real, inf:real ->
     if offset > 0.0 then
         v := (i - 1) * offset + position
         if (((v - offset / 2) < sup) and ((-v + offset / 2) < inf)) then
+            drawing := true
+
+    if offset < 0.0 then
+        v := (i - 1) * offset + position
+        if (((v - offset / 2) < inf) and ((-v + offset / 2) < sup)) then
             drawing := true
 
 // ============================================================================
