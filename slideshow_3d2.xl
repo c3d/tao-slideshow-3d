@@ -24,7 +24,14 @@
 
 import Animate
 
-license_check -> check_impress_or_license "SlideShow3D 1.024"
+license_ok ->
+    if check_impress_or_license "SlideShow3D 1.021" then
+        true
+    else
+        if blink (1.0, 1.0, 300.0) then
+           true
+        else
+           false
 
 
 /******************************************************************************
@@ -68,15 +75,14 @@ TIME_OFFSET := 0.0
 show_image N : text ->
     image_index := image_index + 1
     page_index := ((page_time + TIME_OFFSET) * SPEED - image_index) mod MAX
-    license_check
-    if page_index < SHOWN then
-        if page_index * show_front < 0.5 * SHOWN * show_front then
-            locally
-                rotatey 90 - 360 * page_index / SHOWN
-                rotatex (image_index mod 3) * 15 - 24
-                translatez RADIUS - ((image_index - 1) mod 3) * 100
-                image_px 0, 0, SIZE, 0, N
-
+    if license_ok then
+        if page_index < SHOWN then
+            if page_index * show_front < 0.5 * SHOWN * show_front then
+                locally
+                    rotatey 90 - 360 * page_index / SHOWN
+                    rotatex (image_index mod 3) * 15 - 24
+                    translatez RADIUS - ((image_index - 1) mod 3) * 100
+                    image_px 0, 0, SIZE, 0, N
 
 
 /******************************************************************************
@@ -122,8 +128,8 @@ slider_move -> 0.0
 slider_move := 0.0
 
 // Loop settings
-slider_use_loop -> 0
-slider_use_loop := 0
+slider_use_loop -> false
+slider_use_loop := false
 
 // Mouse sensibilities
 slider_mouse_sx -> 0.0
@@ -169,7 +175,7 @@ slider_next ->
 //    Go to the next item
 // ----------------------------------------------------------------------------
     time
-    if (slider_current_item < slider_count) or (slider_use_loop = 1) then
+    if (slider_current_item < slider_count) or (slider_use_loop) then
         slider_current_item := slider_current_item + 1
 
 
@@ -178,7 +184,7 @@ slider_previous ->
 //    Go to the previous item
 // ----------------------------------------------------------------------------
     time
-    if (slider_current_item > 1) or (slider_use_loop = 1) then
+    if (slider_current_item > 1) or (slider_use_loop) then
         slider_current_item := slider_current_item - 1
 
 
@@ -186,10 +192,7 @@ slider_loop b:boolean ->
 // ----------------------------------------------------------------------------
 //    Set slider in looping mode
 // ----------------------------------------------------------------------------
-    if b then
-        slider_use_loop := 1
-    else
-        slider_use_loop := 0
+    slider_use_loop := b
 
 
 slider_max_items N:integer ->
@@ -231,7 +234,7 @@ slider_mouse_x sx:real ->
                 else
                     step_x := (mouse_x - slider_mouse) * (sx / 10)
                     slider_current_item := (pos - integer step_x)
-                    if (slider_use_loop = 0) then
+                    if (slider_use_loop = false) then
                         if (slider_current_item > slider_count) then
                             slider_current_item := slider_count
                         else
@@ -256,7 +259,7 @@ slider_mouse_y sy:real ->
                 else
                     step_y := (mouse_y - slider_mouse) * (sy / 10)
                     slider_current_item := (pos - integer step_y)
-                    if (slider_use_loop = 0) then
+                    if (slider_use_loop = false) then
                         if (slider_current_item > slider_count) then
                             slider_current_item := slider_count
                         else
@@ -274,7 +277,7 @@ slider_mouse_y sy:real ->
 // ============================================================================
 
 i -> 0
-drawing -> 0
+drawing -> false
 middle -> 0
 sx_inf, sx_sup, sy_inf, sy_sup, sz_inf, sz_sup -> 0
 
@@ -316,16 +319,16 @@ slider N:integer, T ->
             zs -> 0.0
             i := N
             e := 0
-            if slider_use_loop = 1 then
+            if slider_use_loop then
                 i := middle + slider_current_item
                 e := slider_current_item - middle
             while i > e loop
                 locally
-                    drawing := 0
+                    drawing := false
                     check_drawing xs, slider_offset_x, slider_position_x, sx_sup, sx_inf
                     check_drawing ys, slider_offset_y, slider_position_y, sy_sup, sy_inf
                     check_drawing zs, slider_offset_z, slider_position_z, sz_sup, sz_inf
-                    if drawing = 1 then
+                    if drawing then
                         translate xs, ys, zs
                         item := (i - 1) mod slider_count
                         T with item + 1
@@ -335,12 +338,12 @@ check_drawing v:real, offset:real, position:real, sup:real, inf:real ->
     if offset > 0.0 then
         v := (i - 1) * offset + position
         if (((v - offset / 2) < sup) and ((-v + offset / 2) < inf)) then
-            drawing := 1
+            drawing := true
 
     if offset < 0.0 then
         v := (i - 1) * offset + position
         if (((v - offset / 2) < inf) and ((-v + offset / 2) < sup)) then
-            drawing := 1
+            drawing := true
 
 // ============================================================================
 //
@@ -406,7 +409,7 @@ compute_move ->
 //     Compute automatic movement of the slider
 // ----------------------------------------------------------------------------
     if slider_move > 0.0 then
-        if (slider_use_loop = 1) then
+        if (slider_use_loop) then
             current := integer (slider_move mod slider_count) + 1
             if (previous <> current) then
                 slider_next
@@ -414,7 +417,7 @@ compute_move ->
         else
             slider_current_item := integer (slider_move mod slider_count) + 1
     if slider_move < 0.0 then
-        if (slider_use_loop = 1) then
+        if (slider_use_loop) then
             current := integer (slider_move mod slider_count) + 1
             if (previous <> current) then
                 slider_previous
