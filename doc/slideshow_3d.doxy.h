@@ -154,7 +154,7 @@ integer MAX = 270;
  * Adds an image to the collection and draw it if required.
  *
  * To create a slideshow, you call @ref show_image repeatedly for all the
- * files to be displayed. The @c with keyword and the @ref files builtin
+ * files to be displayed. The @c with keyword and the @p files builtin
  * are especially useful here:
  @code
 show_image with files "*.jpg"
@@ -168,13 +168,13 @@ show_image with files "*.jpg"
  *
  * Pour créer un carrousel, vous appelez @ref show_image de manière répétée
  * pour chaque image que vous désirez afficher. Le mot-clé @c with et
- * la primitive @ref files sont particulièrement utiles ici :
+ * la primitive @p files sont particulièrement utiles ici :
  @code
 show_image with files "*.jpg"
  @endcode
  *
  * En fonction des paramètres définis dans ce module, et en fonction
- * également de la valeur de @ref page_time, l'image sera affichée
+ * également de la valeur de @p page_time, l'image sera affichée
  * au bon endroit.
  */
 show_image(filename:text);
