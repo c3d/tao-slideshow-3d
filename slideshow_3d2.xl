@@ -122,8 +122,8 @@ slider_move -> 0.0
 slider_move := 0.0
 
 // Loop settings
-slider_use_loop -> false
-slider_use_loop := false
+slider_use_loop -> 0
+slider_use_loop := 0
 
 // Mouse sensibilities
 slider_mouse_sx -> 0.0
@@ -169,7 +169,7 @@ slider_next ->
 //    Go to the next item
 // ----------------------------------------------------------------------------
     time
-    if (slider_current_item < slider_count) or (slider_use_loop) then
+    if (slider_current_item < slider_count) or (slider_use_loop = 1) then
         slider_current_item := slider_current_item + 1
 
 
@@ -178,7 +178,7 @@ slider_previous ->
 //    Go to the previous item
 // ----------------------------------------------------------------------------
     time
-    if (slider_current_item > 1) or (slider_use_loop) then
+    if (slider_current_item > 1) or (slider_use_loop = 1) then
         slider_current_item := slider_current_item - 1
 
 
@@ -186,7 +186,10 @@ slider_loop b:boolean ->
 // ----------------------------------------------------------------------------
 //    Set slider in looping mode
 // ----------------------------------------------------------------------------
-    slider_use_loop := b
+    if b then
+        slider_use_loop := 1
+    else
+        slider_use_loop := 0
 
 
 slider_max_items N:integer ->
@@ -228,7 +231,7 @@ slider_mouse_x sx:real ->
                 else
                     step_x := (mouse_x - slider_mouse) * (sx / 10)
                     slider_current_item := (pos - integer step_x)
-                    if (slider_use_loop = false) then
+                    if (slider_use_loop = 0) then
                         if (slider_current_item > slider_count) then
                             slider_current_item := slider_count
                         else
@@ -253,7 +256,7 @@ slider_mouse_y sy:real ->
                 else
                     step_y := (mouse_y - slider_mouse) * (sy / 10)
                     slider_current_item := (pos - integer step_y)
-                    if (slider_use_loop = false) then
+                    if (slider_use_loop = 0) then
                         if (slider_current_item > slider_count) then
                             slider_current_item := slider_count
                         else
@@ -271,7 +274,7 @@ slider_mouse_y sy:real ->
 // ============================================================================
 
 i -> 0
-drawing -> false
+drawing -> 0
 middle -> 0
 sx_inf, sx_sup, sy_inf, sy_sup, sz_inf, sz_sup -> 0
 
@@ -313,16 +316,16 @@ slider N:integer, T ->
             zs -> 0.0
             i := N
             e := 0
-            if slider_use_loop then
+            if slider_use_loop = 1 then
                 i := middle + slider_current_item
                 e := slider_current_item - middle
             while i > e loop
                 locally
-                    drawing := false
+                    drawing := 0
                     check_drawing xs, slider_offset_x, slider_position_x, sx_sup, sx_inf
                     check_drawing ys, slider_offset_y, slider_position_y, sy_sup, sy_inf
                     check_drawing zs, slider_offset_z, slider_position_z, sz_sup, sz_inf
-                    if drawing then
+                    if drawing = 1 then
                         translate xs, ys, zs
                         item := (i - 1) mod slider_count
                         T with item + 1
@@ -332,12 +335,12 @@ check_drawing v:real, offset:real, position:real, sup:real, inf:real ->
     if offset > 0.0 then
         v := (i - 1) * offset + position
         if (((v - offset / 2) < sup) and ((-v + offset / 2) < inf)) then
-            drawing := true
+            drawing := 1
 
     if offset < 0.0 then
         v := (i - 1) * offset + position
         if (((v - offset / 2) < inf) and ((-v + offset / 2) < sup)) then
-            drawing := true
+            drawing := 1
 
 // ============================================================================
 //
@@ -403,7 +406,7 @@ compute_move ->
 //     Compute automatic movement of the slider
 // ----------------------------------------------------------------------------
     if slider_move > 0.0 then
-        if (slider_use_loop) then
+        if (slider_use_loop = 1) then
             current := integer (slider_move mod slider_count) + 1
             if (previous <> current) then
                 slider_next
@@ -411,7 +414,7 @@ compute_move ->
         else
             slider_current_item := integer (slider_move mod slider_count) + 1
     if slider_move < 0.0 then
-        if (slider_use_loop) then
+        if (slider_use_loop = 1) then
             current := integer (slider_move mod slider_count) + 1
             if (previous <> current) then
                 slider_previous
