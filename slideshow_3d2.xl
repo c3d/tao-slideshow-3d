@@ -24,7 +24,7 @@
 
 import Animate
 
-license_check -> check_impress_or_license "SlideShow3D 1.023"
+license_check -> check_impress_or_license "SlideShow3D 1.024"
 
 
 /******************************************************************************
