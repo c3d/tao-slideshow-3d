@@ -276,7 +276,12 @@ slider_mouse_y sy:real ->
 i -> 0
 drawing -> 0
 middle -> 0
-sx_inf, sx_sup, sy_inf, sy_sup, sz_inf, sz_sup -> 0
+sx_inf -> 0
+sx_sup -> 0
+sy_inf -> 0
+sy_sup -> 0
+sz_inf -> 0
+sz_sup -> 0
 
 
 slider N:integer, T ->
