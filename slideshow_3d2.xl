@@ -24,7 +24,7 @@
 
 import Animate
 
-license_check -> check_impress_or_license "SlideShow3D 1.024"
+license_check -> check_impress_or_license "SlideShow3D 1.034"
 
 
 /******************************************************************************
@@ -276,12 +276,12 @@ slider_mouse_y sy:real ->
 i -> 0
 drawing -> 0
 middle -> 0
-sx_inf -> 0
-sx_sup -> 0
-sy_inf -> 0
-sy_sup -> 0
-sz_inf -> 0
-sz_sup -> 0
+sx_inf -> 0.0
+sx_sup -> 0.0
+sy_inf -> 0.0
+sy_sup -> 0.0
+sz_inf -> 0.0
+sz_sup -> 0.0
 
 
 slider N:integer, T ->
