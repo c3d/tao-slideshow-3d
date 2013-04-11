@@ -1,7 +1,8 @@
 ﻿/**
  * @~english
  * @taomoduledescription{SlideShow3D, 3D Slide Show}
- * <tt>import SlideShow3D</tt> - Defines some 3D slide shows.@n
+ *
+ * <tt>import SlideShow3D</tt> - Defines some 3D slide shows.\n
  *
  * With this module, you can create nice animations with your various contents.
  * For example, the following code creates a simple slide show of 3D shapes.
@@ -15,7 +16,8 @@
  * @endtaomoduledescription{SlideShow3D}
  * @~french
  * @taomoduledescription{SlideShow3D, Diaporama 3D}
- * <tt>import SlideShow3D</tt> - Définit différents diaporamas 3D.@n
+ *
+ * <tt>import SlideShow3D</tt> - Définit différents diaporamas 3D.\n
  *
  * Ce module vous permet d'intégrer des animations en 3D à vos présentations
  * pour afficher vos contenus les plus divers.
