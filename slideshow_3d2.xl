@@ -66,16 +66,25 @@ TIME_OFFSET -> 0.0
 TIME_OFFSET := 0.0
 
 show_image N : text ->
-    image_index := image_index + 1
-    page_index := ((page_time + TIME_OFFSET) * SPEED - image_index) mod MAX
-    license_check
-    if page_index < SHOWN then
-        if page_index * show_front < 0.5 * SHOWN * show_front then
-            locally
-                rotatey 90 - 360 * page_index / SHOWN
-                rotatex (image_index mod 3) * 15 - 24
-                translatez RADIUS - ((image_index - 1) mod 3) * 100
-                image_px 0, 0, SIZE, 0, N
+    locally
+        texture N
+        W -> 0.0
+        H -> 0.0
+        S -> 0.0
+        W := real texture_width
+        H := real texture_height
+        S := min(SIZE/W, SIZE/H)
+        locally
+            image_index := image_index + 1
+            page_index := ((page_time + TIME_OFFSET) * SPEED - image_index) mod MAX
+            license_check
+            if page_index < SHOWN then
+                if page_index * show_front < 0.5 * SHOWN * show_front then
+                    locally
+                        rotatey 90 - 360 * page_index / SHOWN
+                        rotatex (image_index mod 3) * 15 - 24
+                        translatez RADIUS - ((image_index - 1) mod 3) * 100
+                        rectangle 0, 0, W * S, H * S
 
 
 
