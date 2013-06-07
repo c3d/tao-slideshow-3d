@@ -35,33 +35,28 @@ import Animate
 
 // Reset to 0 before calling show_image
 image_index -> 0
-image_index := 0
 
 // Set to 1.0 to draw front pictures, -1.0 to draw back pictures
 show_front -> 1.0
-show_front := 1.0
 
 // Maximum number of images on the sphere
 SHOWN -> 36
-SHOWN := 36
+
 // Image width (px)
 SIZE -> 300
-SIZE := 300
+
 // Rotation speed factor
 SPEED -> 1.0
-SPEED := 1.0
+
 // Radius of the sphere
 RADIUS -> 1200
-RADIUS := 1200
+
 
 page_index -> 0.0
-page_index := 0
 
 MAX -> 270
-MAX := 270
 
 TIME_OFFSET -> 0.0
-TIME_OFFSET := 0.0
 
 show_image N : text ->
     image_index := image_index + 1
@@ -98,11 +93,8 @@ slider_position_z -> 0.0
 
 // Offsets of each item
 slider_offset_x -> 0.0
-slider_offset_x := 0.0
 slider_offset_y -> 0.0
-slider_offset_y := 0.0
 slider_offset_z -> 0.0
-slider_offset_z := 0.0
 
 // Current slider item
 slider_current_item -> 1
@@ -112,25 +104,21 @@ slider_count -> 0
 
 // Velocity of transitions
 slider_velocity -> 0.05
-slider_velocity := 0.05
 
 // Velocity of movement
 slider_move -> 0.0
-slider_move := 0.0
 
 // Loop settings
 slider_use_loop -> 0
-slider_use_loop := 0
 
 // Mouse sensibilities
 slider_mouse_sx -> 0.0
-slider_mouse_sx := 0.0
 slider_mouse_sy -> 0.0
-slider_mouse_sy := 0.0
 
 // Maximum of shown items
 slider_max_shown_items -> 0
-slider_max_shown_items := 0
+
+
 
 // ============================================================================
 //
