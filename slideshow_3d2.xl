@@ -69,11 +69,10 @@ show_image N : text ->
     if page_index < SHOWN then
         if page_index * show_front < 0.5 * SHOWN * show_front then
             locally
-                color "white"
                 rotatey 90 - 360 * page_index / SHOWN
                 rotatex (image_index mod 3) * 15 - 24
                 translatez RADIUS - ((image_index - 1) mod 3) * 100
-                image_px 0, 0, SIZE, SIZE, N
+                image_px 0, 0, SIZE, 0, N
 
 
 
