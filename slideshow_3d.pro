@@ -18,10 +18,7 @@ MODINSTDIR = slideshow_3d
 
 include(../modules.pri)
 
-OTHER_FILES = slideshow_3d.xl slideshow_3d2.xl
-
-CRYPT_XL_SOURCES = slideshow_3d2.xl
-include(../crypt_xl.pri)
+OTHER_FILES = slideshow_3d.xl 
 
 # icon from http://www.iconfinder.com/icondetails/18336/32/folder_image_photo_icon
 INSTALLS    += thismod_icon
